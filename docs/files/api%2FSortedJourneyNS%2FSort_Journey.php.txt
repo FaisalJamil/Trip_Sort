@@ -1,0 +1,40 @@
+<?php
+namespace SortedJourneyNS;
+use \SortedJourneyNS\Sort_Journey_Interface;
+use \Exception;
+
+/**
+ * 
+ * @author faisal
+ *
+ *	This class is resposible to get an unsorted stack of Boarding Passes and sort them out. Sorting
+ *	is done so that it makes a chain/stack of passes, where end_of_journey of each preceding pass is
+ *	same as end_of_journey of the following one. 
+ *	The implementation of sorting algorithm works with any set of boarding passes, as long as there
+ *	is always an unbroken chain between all the legs of the trip. i.e. it's one continuous trip with
+ *	no interruptions.
+ * 		
+ */
+
+class Sort_Journey implements Sort_Journey_Interface{
+
+	protected static $unsorted_passes;
+	protected static $sorted_passes = array();
+	
+	public static function sort_journey($unsorted_passes){
+	
+		self::$unsorted_passes = $unsorted_passes;
+	
+		if (count(self::$sorted_passes) == 0) {
+			array_push(self::$sorted_passes, array_shift(self::$unsorted_passes));
+		}
+		
+		usort($unsorted_passes, function($a, $b) {
+			return strcmp($b->end_of_journey , $a->start_of_journey);
+		});
+	
+		self::$sorted_passes = array_reverse($unsorted_passes); 
+
+		return self::$sorted_passes;
+	}
+}

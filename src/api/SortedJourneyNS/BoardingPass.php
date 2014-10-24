@@ -1,0 +1,42 @@
+<?php
+
+namespace SortedJourneyNS;
+use \SortedJourneyNS\BoardingPass_Abstract;
+/**
+ * 
+ * @author faisal
+ *
+ *	This class defines a basic skeleton of BoardingPass, its attributes are fully defined here. 
+ *	It is the basic unit which will be used in coming classes. Each boarding pass has a start_of_journey and end_of_journey
+ *	in addition it contains information about seat assignment, gates and means of transportation (such as flight number, bus number
+ *	etc). Some extra info is also stored such as Baggage collection.
+ *	 
+ */
+class BoardingPass extends BoardingPass_Abstract {
+
+	
+	protected $start_of_journey;  
+	protected $end_of_journey; 
+	protected $transport_type;
+	protected $seat_info;
+	protected $gate_info;
+	protected $extra_info;
+
+	function __construct(array $boardingPass) {
+		$this->start_of_journey	= $boardingPass['start_of_journey'];
+		$this->end_of_journey	= $boardingPass['end_of_journey'];
+		$this->transport_type	= $boardingPass['transport_type'];
+		$this->seat_info	= $boardingPass['seat_info'];
+		$this->gate_info	= $boardingPass['gate_info'];
+		$this->extra_info	= $boardingPass['extra_info'];
+		
+		return $this;
+	}
+
+	public function __get($property)
+	{
+		if (property_exists($this, $property)) {
+			return $this->$property;
+		}
+	}
+}

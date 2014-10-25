@@ -15,26 +15,46 @@ use \Exception;
  *	no interruptions.
  * 		
  */
-
 class Sort_Journey implements Sort_Journey_Interface{
 
-	protected static $unsorted_passes;
 	protected static $sorted_passes = array();
-	
+	protected static $unsorted_passes;
+	protected static $buffer = array();
+
 	public static function sort_journey($unsorted_passes){
-	
+		if(empty($unsorted_passes) || count($unsorted_passes) == 1)
+			return $unsorted_passes;
+		
 		self::$unsorted_passes = $unsorted_passes;
-	
+
 		if (count(self::$sorted_passes) == 0) {
 			array_push(self::$sorted_passes, array_shift(self::$unsorted_passes));
 		}
+		foreach (self::$unsorted_passes as $key => $pass) {
+			if (!$pass->start_of_journey || !$pass->end_of_journey) {
+				throw new Exception("start_of_journey and end_of_journey members are mandatory");
+			}
+			$start_of_journey = reset(self::$sorted_passes);
+			$start_of_journey = $start_of_journey->start_of_journey;
 		
-		usort($unsorted_passes, function($a, $b) {
-			return strcmp($b->end_of_journey , $a->start_of_journey);
-		});
-	
-		self::$sorted_passes = array_reverse($unsorted_passes); 
-
+			$end_of_journey = end(self::$sorted_passes);
+			$end_of_journey = $end_of_journey->end_of_journey;
+			if ($end_of_journey == $pass->start_of_journey || $start_of_journey == $pass->end_of_journey) {
+		
+				if ($pass->start_of_journey == $end_of_journey)
+					array_push(self::$sorted_passes, $pass);
+				if ($pass->end_of_journey == $start_of_journey) 
+					array_unshift(self::$sorted_passes, $pass);
+				if (isset(self::$buffer[$key])) 
+					unset(self::$buffer[$key]);
+			}
+			else {
+				array_push(self::$buffer, $pass);
+			}
+		}
+		if (count(self::$buffer) > 0) {
+			self::sort_journey(self::$buffer);
+		}
 		return self::$sorted_passes;
 	}
 }

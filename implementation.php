@@ -48,7 +48,8 @@
 	
 	$journey = new Journey($boardingpasses);
 	$sorted = $journey->sort_Passes()->get_Passes();
-	$count = 1;
+	
+ 	$count = 1;
 	foreach ($sorted as $pass){
 		echo $count.	" Take ".$pass->transport_type.
 					 	" From ".$pass->start_of_journey.
@@ -57,11 +58,11 @@
 		echo $pass->seat_info ? $pass->seat_info." Seat" :"Any Seat ";
 		echo $pass->gate_info ? ", ".$pass->gate_info." Gate" :", Any Gate ";
 		echo $pass->extra_info ? " ".$pass->extra_info :" ";
-		echo "\n";   
+		echo "\n<br>";   
 		$count++;
 	}
 	echo $count. " You've reached the destination";
-
+  	
 	}catch(Exception $e){
 		echo $e->getMessage();
 }

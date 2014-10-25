@@ -21,12 +21,14 @@ PHPUnit works fine with every continuous integration server since it outputs all
 
 Which sorting method I preferred?
 
-usort is a PHP predefined function and will sort an array by its values using a user-supplied comparison function. If the array to be sorted needs to be sorted by some non-trivial criteria, this function should be used. usort uses Quicksort. It is known, that Quicksort has expected complexity of O(N log N), and Quicksort is used more than Mergesort (worst case O(N log N)) because constants are smaller and it requires no extra memory and is easy to avoid Quicksort running on the worst case.
+usort is a PHP predefined function and will sort an array by its values using a user-supplied comparison function. If the array to be sorted needs to be sorted by some non-trivial criteria, this function should be used. usort uses Quicksort. It is known, that Quicksort has expected complexity of O(N log N), and Quicksort is used more than Mergesort (worst case O(N log N)) because constants are smaller and it requires no extra memory and is easy to avoid Quicksort running on the worst case. 
+
+First I thought to use usort and grab the advantages it has, but then I wrote my own custom function that gave me more control over the code and complexity. Also using usort might involve added complexity due to callback functions and internal hidden functionality.  
 
 Application:
 
 Generally application is written with easily readeable variable names and less comments. I am inspired by Code Complete by Steve McConnell, and it 
-helps me a lot to humanize the code, making less effort.
+helps me a lot to humanize the code, making less effort. It has made documentation suffer a little that was created by php-doc though. 
 
 How to Run?
 

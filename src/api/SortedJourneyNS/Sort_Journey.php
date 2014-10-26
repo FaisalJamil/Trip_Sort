@@ -22,11 +22,11 @@ class Sort_Journey implements Sort_Journey_Interface{
 	protected static $buffer = array();
 
 	public static function sort_journey($unsorted_passes){
-		if(empty($unsorted_passes) || count($unsorted_passes) == 1)
-			return $unsorted_passes;
 		
-		self::$unsorted_passes = $unsorted_passes;
-
+	 	self::$unsorted_passes = $unsorted_passes;
+		if(empty($unsorted_passes))
+			return self::$unsorted_passes;
+		
 		if (count(self::$sorted_passes) == 0) {
 			array_push(self::$sorted_passes, array_shift(self::$unsorted_passes));
 		}
@@ -55,6 +55,8 @@ class Sort_Journey implements Sort_Journey_Interface{
 		if (count(self::$buffer) > 0) {
 			self::sort_journey(self::$buffer);
 		}
+			
+ 		
 		return self::$sorted_passes;
-	}
+ 	}
 }

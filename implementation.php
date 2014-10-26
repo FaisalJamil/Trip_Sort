@@ -45,11 +45,11 @@
 		'extra_info' => null
 		))
 	);
-	
 	$journey = new Journey($boardingpasses);
 	$sorted = $journey->sort_Passes()->get_Passes();
 	
- 	$count = 1;
+	
+  	$count = 1;
 	foreach ($sorted as $pass){
 		echo $count.	" Take ".$pass->transport_type.
 					 	" From ".$pass->start_of_journey.
